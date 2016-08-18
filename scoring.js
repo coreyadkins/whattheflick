@@ -5,7 +5,7 @@
 // you can also get points for taking the hint
 
 /**
-* Haversine formula for distance between coordinates
+* Haversine formula for distance between coordinates, removed the non-miles calculations
 */
 function distance(lat1, lon1, lat2, lon2) {
 	var radlat1 = Math.PI * lat1/180
@@ -20,10 +20,10 @@ function distance(lat1, lon1, lat2, lon2) {
 }
 
 /**
-*
+* Scoreboard Constructor
 */
-function ScoreBoard(starting) {
-  this.score = starting;
+function ScoreBoard() {
+  this.score = 0;
   this.getScore = function() {
     return this.score();
   };
@@ -42,7 +42,8 @@ function ScoreBoard(starting) {
 
 
 /**
-* take in a list of coordinates and return the distance
+* take in a list of coordinates and return the distance, the distance function
+* requires
 */
 function milesBetweenPoints(coordinates) {
   var lat1 = coordinates[0];
@@ -54,8 +55,9 @@ function milesBetweenPoints(coordinates) {
 
 
 
-//test stuff
-var testScoreboard = new ScoreBoard(0);
-var testCoords = [45.520899, -122.683658, 45.522989, -122.687199];
-testScoreboard.addPoints(milesBetweenPoints(testCoords));
-console.log(testScoreboard);
+// //test stuff
+// var testScoreboard = new ScoreBoard();
+// //two random places in Portland
+// var testCoords = [45.520899, -122.683658, 45.522989, -122.687199];
+// testScoreboard.addPoints(milesBetweenPoints(testCoords));
+// console.log(testScoreboard);
