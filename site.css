@@ -15,13 +15,13 @@ body {
 
 header {
   z-index: 1;
-  margin:0;
+  margin: 0;
   height: 2em;
 }
 
 h1 {
   margin-left: 2em;
-  float:left;
+  float: left;
 }
 
 main {
@@ -37,6 +37,6 @@ main {
 }
 
 .photo img {
-  margin:0 auto;
-  display:none;
+  margin: 0 auto;
+  display: none;
 }
