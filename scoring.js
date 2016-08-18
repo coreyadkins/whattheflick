@@ -28,6 +28,8 @@ function ScoreBoard(starting) {
     return this.score();
   };
   // adding the points for the distance between guess and coords or if use a hint
+  // could also add some aditional lines to link to HTML/CSS to print the score
+  // on the screen in red
   this.addPoints = function(amount) {
     this.score += Math.ceil(amount);
   };
