@@ -47,19 +47,20 @@ function ScoreBoard() {
 * take in a list of coordinates and return the distance, the distance function
 * requires
 */
-function milesBetweenPoints(coordinates) {
-  var lat1 = coordinates[0];
-  var lon1 = coordinates[1];
-  var lat2 = coordinates[2];
-  var lon2 = coordinates[3];
+function milesBetweenPoints(flickrCoord, clickCoord) {
+  var lat1 = flickrCoord['lat'];
+  var lon1 = flickrCoord['lng'];
+  var lat2 = clickCoord['lat'];
+  var lon2 = clickCoord['lng'];
   return distance(lat1, lon1, lat2, lon2)
 }
 
 
 
-// //test stuff
-// var testScoreboard = new ScoreBoard();
-// //two random places in Portland
-// var testCoords = [45.520899, -122.683658, 45.522989, -122.687199];
-// testScoreboard.addPoints(milesBetweenPoints(testCoords));
-// console.log(testScoreboard);
+//test stuff
+var testScoreboard = new ScoreBoard();
+//two random places in Portland
+var testFlickr = {lat: 45.520899, lng: -122.683658};
+var testClick = {lat: 45.522989, lng: -122.687199};
+testScoreboard.addPoints(milesBetweenPoints(testFlickr, testClick));
+console.log(testScoreboard);
