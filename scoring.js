@@ -1,3 +1,5 @@
+'use strict';
+
 //Scoring Module
 
 // The lower score the better
