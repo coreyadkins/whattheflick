@@ -1,0 +1,24 @@
+.game {
+  display: flex;
+  height: 33%;
+  margin-top:-2em;
+  flex:1;
+}
+
+.game p {
+  text-align: center;
+  margin-top:20%;
+}
+
+#map {
+  background: #B5D0D0;
+  flex:2;
+  height:100%;
+}
+
+#controls {
+  flex:1;
+  height:100%;
+  padding-left:1em;
+  background: #E1E6E2;
+}
