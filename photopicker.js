@@ -1,12 +1,6 @@
 'use strict';
 
-if (!flickrAPI) {
-  var flickrAPI = {};
-}
-
-if (!Promise) {
-  var Promise = {};
-}
+/* globals flickrAPI, Promise */
 
 var URL_STEM = 'https://api.flickr.com/services/rest/?';
 
@@ -134,6 +128,3 @@ function getPhoto(topCountriesList) {
   return getPhotoObject(photoLocAndURL[0], placesByCountry[1],
     photoLocAndURL[1], photoLocAndURL[2]);
 }
-
-var test = getPhoto();
-console.log(test);
