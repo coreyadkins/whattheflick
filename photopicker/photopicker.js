@@ -78,12 +78,12 @@ function getPhotosByPlace(placesByCountry) {
 /**
  * Gets the coordinates for the given photo from flickr API
  */
-function getPhotoLocation(photoid) {
+function getPhotoLocation(photoId) {
   var request = $.ajax({
     data: {
       method: 'flickr.photos.geo.getLocation',
       api_key: flickrAPI,
-      photo_id: photoid,
+      photo_id: photoId,
       format: 'json',
       nojsoncallback: 1
     },
