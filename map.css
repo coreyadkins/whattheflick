@@ -1,7 +1,10 @@
 .game {
   display: flex;
   height: 33%;
-  margin-top: -2em;
+}
+
+.game > div {
+  height: 100%;
   flex: 1;
 }
 
@@ -11,14 +14,12 @@
 }
 
 #map {
-  background: #B5D0D0;
   flex: 2;
-  height: 100%;
+  background: #B5D0D0;
 }
 
 #controls {
   flex: 1;
-  height: 100%;
   padding-left: 1em;
   background: #E1E6E2;
 }
