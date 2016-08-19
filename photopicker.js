@@ -11,7 +11,9 @@ if (!Promise) {
 var URL_STEM = 'https://api.flickr.com/services/rest/?';
 
 /**
- * Pulls a list of the Top 100 Countries with Photos from Flickr API.
+ * Pulls a list of the Top 100 Countries with Photos from Flickr API. Called in
+ * site.js so that the request doesn't have to be re-run for each instance of
+ * getPhoto();
  */
 function getTopCountriesList() {
   var request = $.ajax({
@@ -66,7 +68,8 @@ function getPhotosByPlace(placesByCountry) {
       api_key: flickrAPI, // eslint-disable-line camelcase
       place_id: placeID.place_id, // eslint-disable-line camelcase
       format: 'json',
-      nojsoncallback: 1
+      nojsoncallback: 1,
+      per_page: 10 // eslint-disable-line camelcase
     },
     dataType: 'json',
     url: URL_STEM,
@@ -120,9 +123,7 @@ function getPhotoObject(photoURL, country, photoLat, photoLon) {
  * Main function- grabs a random photo off Flickr API with its location
  * coordinates, and the country it was taken in.
  */
-
-function getPhoto() {
-  var topCountriesList = getTopCountriesList();
+function getPhoto(topCountriesList) {
   var placesByCountry = getPlacesByCountry(topCountriesList);
   if (placesByCountry[0].places.place.length === 0) {
     var newTopCountriesList = getTopCountriesList();
