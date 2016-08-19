@@ -1,13 +1,17 @@
 //Module for getting 'clues' from wikipedia, EG flags or language
 
+// test stuff
+var country = {country: 'Germany'};
+
+
 
 /**
 * Uses the object from the flickr request to get information from wikipedia to
 * generate a request for the wikipedia information. Returns a promise.
 */
-function getCountryClues() {
+function getCountryClues(flickrCountry) {
   var PARAMS = {
-    action: 'query', titles: 'Germany', format: 'json',
+    action: 'query', titles: flickrCountry['country'], format: 'json',
     prop: 'pageimages'
   };
   var url = 'https://en.wikipedia.org/w/api.php'
@@ -18,7 +22,8 @@ function getCountryClues() {
     }));
 }
 
-getCountryClues().then(function(fromJSON) {
+
+getCountryClues(country).then(function(fromJSON) {
   console.log(fromJSON)
 });
 
@@ -27,7 +32,3 @@ getCountryClues().then(function(fromJSON) {
 // https://en.wikipedia.org/w/api.php?action=query&titles=Germany&prop=revisions&rvprop=content&format=json
 // pulls image names, close but no cigar
 // https://en.wikipedia.org/w/api.php?action=query&titles=Germany&format=json&prop=images
-
-
-// test stuff
-var country = 'Germany'
