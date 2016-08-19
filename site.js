@@ -59,17 +59,35 @@ function placePhoto(url) {
  * Placeholder function
  */
 function locationClickHandler(latLng) {
-  console.log('LatLng: ' + latLng.lat + ', ' + latLng.lng);
+  return latLng;
+}
+
+function setUp(topCountriesList) {
+  var photo = getPhoto(topCountriesList); // eslint-disable-line no-undef
+  initializeMap(locationClickHandler); // eslint-disable-line no-undef
+  placePhoto(photo.url); // eslint-disable-line no-undef
+}
+
+function main() {
+  var roundsPlayed = 0;
+  var scoreBoard = new ScoreBoard(); // eslint-disable-line no-undef
+  var topCountriesList = getTopCountriesList(); // eslint-disable-line no-undef
+  var photo = setUp(topCountriesList)
+  while (roundsPlayed < 5) {
+    var photo = setUp(topCountriesList);
+    var clickLoc = locationClickHandler();
+    if (typeof clickLoc != 'undefined') {
+      scoreBoard += milesBetweenPoints(photo, clickLoc); // eslint-disable-line no-undef
+      roundsPlayed += 1;
+    }
+  }
 }
 
 /**
  * main
  */
 $().ready(function() {
-  var topCountriesList = getTopCountriesList();
-  var photo = getPhoto(topCountriesList);
-  initializeMap(locationClickHandler); // eslint-disable-line no-undef
-  placePhoto(photo.url);
+  main();
 });
 
 
