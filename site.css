@@ -34,7 +34,7 @@ main {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  overflow: hidden;
+  overflow: scroll;
   background: #000;
 }
 
@@ -44,4 +44,8 @@ main {
 
 .photo.empty img {
   display: none;
+}
+
+img.zoom {
+  zoom: 3;
 }

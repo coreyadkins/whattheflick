@@ -70,6 +70,11 @@ $().ready(function() {
   var photo = getPhoto(topCountriesList);
   initializeMap(locationClickHandler); // eslint-disable-line no-undef
   placePhoto(photo.url);
+
+  $('.photo img').on('dblclick', function(e) {
+    var cls = e.currentTarget.className ? '' : 'zoom';
+    e.currentTarget.className = cls;
+  });
 });
 
 
