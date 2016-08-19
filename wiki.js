@@ -27,7 +27,7 @@ function getCountryClues(flickrCountry) {
 */
 var urlOutput = getCountryClues(country).then(function(fromJSON) {
   console.log(fromJSON)
-  return stripUrlFromJson(fromJSON)
+  return makeThumbnailGreatAgain(stripUrlFromJson(fromJSON))
 });
 
 
@@ -45,7 +45,12 @@ function stripUrlFromJson(jsonObj) {
   return output
 }
 
-// url from sandbox
-// https://en.wikipedia.org/w/api.php?action=query&titles=Germany&prop=revisions&rvprop=content&format=json
-// pulls image names, close but no cigar
-// https://en.wikipedia.org/w/api.php?action=query&titles=Germany&format=json&prop=images
+/**
+* munges URL to request a bigger thumbnail, makes wikipedia pay for it
+*/
+function makeThumbnailGreatAgain(url) {
+  var re = /\/\d*[p][x]/i;
+  var output = url.replace(re, '/500px');
+  console.log(output);
+  return output
+}
