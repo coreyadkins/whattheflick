@@ -66,8 +66,9 @@ function locationClickHandler(latLng) {
  * main
  */
 $().ready(function() {
+  var photo = getPhoto();
   initializeMap(locationClickHandler); // eslint-disable-line no-undef
-  placePhoto('https://ckinknoazoro.files.wordpress.com/2011/06/random.jpg');
+  placePhoto(photo.url);
 });
 
 

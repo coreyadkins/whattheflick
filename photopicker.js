@@ -17,8 +17,8 @@ function getTopCountriesList() {
   var request = $.ajax({
     data: {
       method: 'flickr.places.getTopPlacesList',
-      api_key: flickrAPI,
-      place_type_id: 12,
+      api_key: flickrAPI, // eslint-disable-line camelcase
+      place_type_id: 12, // eslint-disable-line camelcase
       format: 'json',
       nojsoncallback: 1
     },
@@ -40,8 +40,8 @@ function getPlacesByCountry(topPlacesList) {
   var request = $.ajax({
     data: {
       method: 'flickr.places.getChildrenWithPhotosPublic',
-      api_key: flickrAPI,
-      place_id: countryID.place_id,
+      api_key: flickrAPI, // eslint-disable-line camelcase
+      place_id: countryID.place_id, // eslint-disable-line camelcase
       format: 'json',
       nojsoncallback: 1
     },
@@ -63,8 +63,8 @@ function getPhotosByPlace(placesByCountry) {
   var request = $.ajax({
     data: {
       method: 'flickr.photos.search',
-      api_key: flickrAPI,
-      place_id: placeID.place_id,
+      api_key: flickrAPI, // eslint-disable-line camelcase
+      place_id: placeID.place_id, // eslint-disable-line camelcase
       format: 'json',
       nojsoncallback: 1
     },
@@ -82,8 +82,8 @@ function getPhotoLocation(photoId) {
   var request = $.ajax({
     data: {
       method: 'flickr.photos.geo.getLocation',
-      api_key: flickrAPI,
-      photo_id: photoId,
+      api_key: flickrAPI, // eslint-disable-line camelcase
+      photo_id: photoId, // eslint-disable-line camelcase
       format: 'json',
       nojsoncallback: 1
     },
