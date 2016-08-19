@@ -67,7 +67,7 @@ function locationClickHandler(latLng) {
  */
 $().ready(function() {
   var topCountriesList = getTopCountriesList();
-  var photo = getPhoto();
+  var photo = getPhoto(topCountriesList);
   initializeMap(locationClickHandler); // eslint-disable-line no-undef
   placePhoto(photo.url);
 });
