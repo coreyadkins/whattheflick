@@ -43,7 +43,7 @@ var coordinateProto = {
     return [Number(lng), Number(lat)];
   },
   _wrapBounds: function(num, bound) {
-    var tempNum = num;
+    var tempNum = num % (bound * 2);
     var realNum = tempNum;
 
     if (Math.abs(tempNum) >= bound) {
@@ -57,10 +57,10 @@ var coordinateProto = {
     return realNum;
   },
   getRealLatitude: function(num) {
-    return this._wrapBounds(num % 90, 90);
+    return this._wrapBounds(num, 90);
   },
   getRealLongitude: function(num) {
-    return this._wrapBounds(num % 360, 180);
+    return this._wrapBounds(num, 180);
   }
 };
 
