@@ -1,5 +1,12 @@
 'use strict';
 
+/* global getPhoto, getTopCountriesList, milesBetweenPoints, linkPoints */
+
+var TOTAL_ROUNDS = 5;
+var roundNumber = 1;
+var topCountriesList;
+var photo;
+
 /**
  *
  *
@@ -28,9 +35,9 @@ function fitDimsToBounds(imgWidth, imgHeight, boxWidth, boxHeight) {
 
 
 /**
+ * Preload photo, fade out old, replace with new
  *
- *
- * @param {any} latLng
+ * @param {String} url
  */
 function placePhoto(url) {
   $('<img>').attr('src', url).on('load', function(loadEvt) {
@@ -56,22 +63,57 @@ function placePhoto(url) {
 }
 
 /**
- * Placeholder function
+ *
  */
-function locationClickHandler(latLng) {
-  console.log('LatLng: ' + latLng.lat + ', ' + latLng.lng);
+function displayNextPhoto() {
+  // TODO: disable map interaction
+  photo = getPhoto(topCountriesList);
+  placePhoto(photo.url);
+  // TODO: re-enable map interaction
+}
+
+/**
+ * TODO
+ */
+function askPlayAgain() {
+  if (confirm('Play again?')) {
+    resetMap(); // eslint-disable-line no-undef
+    roundNumber = 1;
+    displayNextPhoto();
+  }
+}
+
+/**
+ * Primary game interaction
+ */
+function handleLocationClick(clickCoord) {
+  var actualCoord = photo.coordinate;
+  linkPoints(actualCoord, clickCoord);
+
+  var distance = milesBetweenPoints(photo.coordinate, clickCoord);
+
+  $('.hints ul').html(
+    '<li>Actual: ' + photo.coordinate.latitude + ', ' +
+    photo.coordinate.longitude + '</li>' +
+    '<li>Guess: ' + clickCoord.latitude + ', ' +
+    clickCoord.longitude + '</li>' +
+    '<li>Distance: ' + distance + ' mi</li>'
+  );
+
+  ++roundNumber;
+  if (roundNumber > TOTAL_ROUNDS) {
+    window.setTimeout(askPlayAgain, 1000);
+  } else {
+    displayNextPhoto();
+  }
 }
 
 /**
  * main
  */
 $().ready(function() {
-  var topCountriesList = getTopCountriesList();
-  var photo = getPhoto(topCountriesList);
-  initializeMap(locationClickHandler); // eslint-disable-line no-undef
-  placePhoto(photo.url);
+  roundNumber = 1;
+  topCountriesList = getTopCountriesList();
+  displayNextPhoto();
+  initializeMap(handleLocationClick); // eslint-disable-line no-undef
 });
-
-
-//// Test features ////
-// function dum
