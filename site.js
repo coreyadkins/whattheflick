@@ -5,6 +5,7 @@ var roundNumber = 1;
 var topCountriesList;
 var photo;
 var clues; // eslint-disable-line no-unused-vars
+var clueNames; // eslint-disable-line no-unused-vars
 var scoreboard; // eslint-disable-line no-unused-vars
 
 var PREVIEW_IN = {
@@ -139,16 +140,27 @@ function unzoomImage() {
   });
 }
 
+function handleLoadedClues(jsonData) {
+  var jsonObj = jsonData[0];
+  clues = [
+    jsonObj.population, jsonObj.region, jsonObj.currencies.join(', '),
+    jsonObj.borders.join(','), jsonObj.nativeName
+  ];
+  clueNames = ['population', 'region', 'currencies', 'borders', 'nativeName'];
+}
+
 /**
  * Placeholder function
  */
 function displayNextPhoto() {
   // TODO: disable map interaction
   photo = getPhoto(topCountriesList);
-  getCountryClues(photo).then(function(data) {
-    clues = data;
-    console.dir(clues.query.pages);
-  });
+  getCountryInfo(photo.country).then(handleLoadedClues);
+
+  // getCountryClues(photo).then(function(data) {
+  //   clues = data;
+  //   console.dir(clues.query.pages);
+  // });
   placePhoto(photo.url);
   $('.hints ul').children().remove();
   $('.details').text('');
@@ -197,9 +209,17 @@ function handleLocationClick(clickCoord) {
  *
  */
 function giveHint() {
-  var $li = $('<li>').text('Flag: ');
-  $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
-  $('.hints ul').append($li);
+  var $ul = $('.hints ul');
+  var hintsUsed = $('.hints ul').children().length;
+  if (hintsUsed <= 4) {
+    var $li = $('<li>');
+    $li.text(clueNames[hintsUsed] + ': ' + clues[hintsUsed]);
+    // $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
+    $ul.append($li);
+  } else {
+    $ul.append('no more hints');
+  }
+
 }
 
 /**

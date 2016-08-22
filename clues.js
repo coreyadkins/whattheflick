@@ -1,5 +1,6 @@
 'use strict';
 // A module the uses the rest countries api to provide a list of clues
+// returns a promise
 
 /**
 * gets a block of JSON with various useful facts to use as clues
@@ -11,8 +12,4 @@ function getCountryInfo(country) {
   }));
 }
 
-function thingToDoWhenCluesArrive(jsonData) {
-  console.dir(jsonData);
-}
-
-getCountryInfo('Germany').then(thingToDoWhenCluesArrive);
+// getCountryInfo(countryName).then(thingToDoWhenCluesArrive);
