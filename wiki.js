@@ -1,3 +1,4 @@
+'use strict';
 //Module for getting 'clues' from wikipedia, EG flags or language
 
 // test stuff
@@ -11,23 +12,23 @@ var country = {country: 'Germany'};
 */
 function getCountryClues(flickrCountry) {
   var PARAMS = {
-    'action': 'query', 'titles': flickrCountry['country'], format: 'json',
+    'action': 'query', 'titles': flickrCountry.country, format: 'json',
     prop: 'pageimages'
   };
-  var url = 'https://en.wikipedia.org/w/api.php'
+  var url = 'https://en.wikipedia.org/w/api.php';
   return Promise.resolve($.ajax({
     dataType: 'jsonp',
     url: url,
     data: PARAMS
-    }));
+  }));
 }
 
 /**
 * sends the request out for things
 */
 var urlOutput = getCountryClues(country).then(function(fromJSON) {
-  console.log(fromJSON)
-  return makeThumbnailGreatAgain(stripUrlFromJson(fromJSON))
+  console.log(fromJSON);
+  return makeThumbnailGreatAgain(stripUrlFromJson(fromJSON));
 });
 
 
@@ -39,10 +40,10 @@ function stripUrlFromJson(jsonObj) {
   var siteIDArray = Object.keys(jsonObj.query.pages);
   console.log(siteIDArray);
   var siteID = siteIDArray[0];
-  console.log(siteID)
+  console.log(siteID);
   var output = jsonObj.query.pages[siteID].thumbnail.source;
   console.log(output);
-  return output
+  return output;
 }
 
 /**
@@ -52,5 +53,5 @@ function makeThumbnailGreatAgain(url) {
   var re = /\/\d*[p][x]/i;
   var output = url.replace(re, '/500px');
   console.log(output);
-  return output
+  return output;
 }

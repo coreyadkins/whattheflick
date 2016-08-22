@@ -1,11 +1,12 @@
 'use strict';
 
-/* global getPhoto, getTopCountriesList, milesBetweenPoints, linkPoints */
+/* global getPhoto, getTopCountriesList, milesBetweenPoints, linkPoints, getCountryClues */
 
 var TOTAL_ROUNDS = 5;
 var roundNumber = 1;
 var topCountriesList;
 var photo;
+var clues; // eslint-disable-line no-unused-vars
 
 /**
  *
@@ -68,7 +69,13 @@ function placePhoto(url) {
 function displayNextPhoto() {
   // TODO: disable map interaction
   photo = getPhoto(topCountriesList);
+  getCountryClues(photo).then(function(data) {
+    clues = data;
+    console.dir(clues.query.pages);
+  });
   placePhoto(photo.url);
+  $('.hints ul').children().remove();
+  $('.details').text('');
   // TODO: re-enable map interaction
 }
 
@@ -77,10 +84,11 @@ function displayNextPhoto() {
  */
 function askPlayAgain() {
   if (confirm('Play again?')) {
-    resetMap(); // eslint-disable-line no-undef
     roundNumber = 1;
     displayNextPhoto();
   }
+
+  resetMap(); // eslint-disable-line no-undef
 }
 
 /**
@@ -92,13 +100,11 @@ function handleLocationClick(clickCoord) {
 
   var distance = milesBetweenPoints(photo.coordinate, clickCoord);
 
-  $('.hints ul').html(
-    '<li>Actual: ' + photo.coordinate.latitude + ', ' +
-    photo.coordinate.longitude + '</li>' +
-    '<li>Guess: ' + clickCoord.latitude + ', ' +
-    clickCoord.longitude + '</li>' +
-    '<li>Distance: ' + distance + ' mi</li>'
-  );
+  $('.details').html([
+    'Actual: ' + photo.coordinate.latitude,
+    'Guess: ' + clickCoord.latitude,
+    'Distance: ' + distance
+  ].join('<br>'));
 
   ++roundNumber;
   if (roundNumber > TOTAL_ROUNDS) {
@@ -109,6 +115,15 @@ function handleLocationClick(clickCoord) {
 }
 
 /**
+ *
+ */
+function giveHint() {
+  var $li = $('<li>').text('Flag: ');
+  $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
+  $('.hints ul').append($li);
+}
+
+/**
  * main
  */
 $().ready(function() {
@@ -116,4 +131,5 @@ $().ready(function() {
   topCountriesList = getTopCountriesList();
   displayNextPhoto();
   initializeMap(handleLocationClick); // eslint-disable-line no-undef
+  $('button').on('click', giveHint);
 });
