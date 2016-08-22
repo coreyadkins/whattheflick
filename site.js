@@ -5,6 +5,7 @@ var roundNumber = 1;
 var topCountriesList;
 var photo;
 var clues; // eslint-disable-line no-unused-vars
+var scoreboard; // eslint-disable-line no-unused-vars
 
 var PREVIEW_IN = {
   left: '1em',
@@ -90,7 +91,6 @@ function placePhoto(url) {
 
 /**
  * Placeholder function
-=======
  * Dimensions of page
  *
  * @return {width: px, height: px}
@@ -159,8 +159,9 @@ function displayNextPhoto() {
  * TODO
  */
 function askPlayAgain() {
-  if (confirm('Play again?')) {
+  if (confirm('Your final score was ' + scoreboard.score + '. Play again?')) {
     roundNumber = 1;
+    scoreboard = new ScoreBoard();
     displayNextPhoto();
   }
 
@@ -175,18 +176,20 @@ function handleLocationClick(clickCoord) {
   linkPoints(actualCoord, clickCoord);
 
   var distance = milesBetweenPoints(photo.coordinate, clickCoord);
+  scoreboard.addPoints(distance);
 
   $('.details').html([
     'Actual: ' + photo.coordinate.latitude,
     'Guess: ' + clickCoord.latitude,
-    'Distance: ' + distance
+    'Distance: ' + distance,
+    'Your current score: ' + scoreboard.score
   ].join('<br>'));
 
   ++roundNumber;
   if (roundNumber > TOTAL_ROUNDS) {
     window.setTimeout(askPlayAgain, 1000);
   } else {
-    displayNextPhoto();
+    setTimeout(displayNextPhoto, 1000);
   }
 }
 
@@ -204,6 +207,7 @@ function giveHint() {
  */
 $().ready(function() {
   roundNumber = 1;
+  scoreboard = new ScoreBoard();
   topCountriesList = getTopCountriesList();
   displayNextPhoto();
   initializeMap(handleLocationClick); // eslint-disable-line no-undef
