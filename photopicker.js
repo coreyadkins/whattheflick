@@ -106,11 +106,29 @@ function getPhotoLocation(photoId) {
 }
 
 /**
- * Picks a random photo from the list, then creates a URL to access the .jpg of
- * the photo.
+ * Filters photos from the MeanWhile Exhibition account that mess up the picker.
+ * @return {[type]} [description]
  */
-function getPhotoLocAndURL(photosByPlace) {
-  var photo = _.sample(photosByPlace.photos.photo);
+function trollFilter(photosByPlace) {
+  var photos = photosByPlace.photos.photo;
+  return _.filter(photos, function(photo) {
+    return photo !== '100597270@N04';
+  });
+}
+
+
+/**
+ * Filters out the troll photos, then picks a random photo from the list.
+ */
+function pickPhoto(photosByPlace) {
+  var filteredPhotos = trollFilter(photosByPlace);
+  return _.sample(filteredPhotos);
+}
+
+/**
+ * Takes in a photo, then creates a URL to access the .jpg of the photo.
+ */
+function getPhotoLocAndURL(photo) {
   var photoLocation = getPhotoLocation(photo.id);
   var photoLat = photoLocation.photo.location.latitude;
   var photoLon = photoLocation.photo.location.longitude;
@@ -127,6 +145,8 @@ function getPhotoObject(photoURL, country, photoLat, photoLon) {
   return new PhotoObject(photoURL, photoLat, photoLon, country);
 }
 
+
+
 /**
  * Main function- grabs a random photo off Flickr API with its location
  * coordinates, and the country it was taken in.
@@ -138,7 +158,8 @@ function getPhoto(topCountriesList) { // eslint-disable-line no-unused-vars
     var placesByCountry = getPlacesByCountry(newTopCountriesList);
   }
   var photosByPlace = getPhotosByPlace(placesByCountry[0]);
-  var photoLocAndURL = getPhotoLocAndURL(photosByPlace);
+  var photo = pickPhoto(photosByPlace);
+  var photoLocAndURL = getPhotoLocAndURL(photo);
   return getPhotoObject(photoLocAndURL[0], placesByCountry[1],
     photoLocAndURL[1], photoLocAndURL[2]);
 }
