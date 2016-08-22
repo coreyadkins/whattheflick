@@ -187,9 +187,9 @@ function handleLocationClick(clickCoord) {
 
   ++roundNumber;
   if (roundNumber > TOTAL_ROUNDS) {
-    window.setTimeout(askPlayAgain, 1000);
+    window.setTimeout(askPlayAgain, 2000);
   } else {
-    setTimeout(displayNextPhoto, 1000);
+    setTimeout(displayNextPhoto, 2000);
   }
 }
 
