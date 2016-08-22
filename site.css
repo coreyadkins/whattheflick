@@ -1,6 +1,6 @@
 html, body {
   margin: 0;
-  padding:0;
+  padding: 0;
   height: 100%;
 }
 
@@ -34,7 +34,7 @@ main {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  overflow: hidden;
+  overflow: scroll;
   background: #000;
 }
 
@@ -44,4 +44,54 @@ main {
 
 .photo.empty img {
   display: none;
+}
+
+img.zoom {
+  zoom: 3;
+}
+
+.overlay,
+.zoom
+{
+  position: fixed;
+  display: none;
+}
+
+.preview .overlay,
+.preview .zoom
+{
+  display: block;
+}
+
+
+.overlay {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: .5;
+}
+
+.zoom {
+  left: 49%;
+  top: 66%;
+  right: 49%;
+  bottom: 32%;
+  border: 1px solid #000;
+  border-radius: 1em;
+  background: #000;
+  overflow: scroll;
+  align-content: center;
+  justify-content: center;
+}
+
+.preview .zoom {
+  display: flex;
+}
+
+.preview .zoom img {
+  margin: auto;
+  width: 0;
+  height: 0;
 }

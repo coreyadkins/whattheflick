@@ -1,8 +1,22 @@
 'use strict';
 
-/* globals flickrAPI, Promise */
+/* globals flickrAPI, Promise, Coordinate */
 
 var URL_STEM = 'https://api.flickr.com/services/rest/?';
+
+/**
+ *
+ *
+ * @param {any} url
+ * @param {any} latitude
+ * @param {any} longitude
+ * @param {any} country
+ */
+function PhotoObject(url, latitude, longitude, country) {
+  this.url = url;
+  this.coordinate = new Coordinate(latitude, longitude);
+  this.country = country;
+}
 
 /**
  * Pulls a list of the Top 100 Countries with Photos from Flickr API. Called in
@@ -110,14 +124,14 @@ function getPhotoLocAndURL(photosByPlace) {
  * Generates desired object from gathered data.
  */
 function getPhotoObject(photoURL, country, photoLat, photoLon) {
-  return {url: photoURL, lat: photoLat, lon: photoLon, country: country};
+  return new PhotoObject(photoURL, photoLat, photoLon, country);
 }
 
 /**
  * Main function- grabs a random photo off Flickr API with its location
  * coordinates, and the country it was taken in.
  */
-function getPhoto(topCountriesList) {
+function getPhoto(topCountriesList) { // eslint-disable-line no-unused-vars
   var placesByCountry = getPlacesByCountry(topCountriesList);
   if (placesByCountry[0].places.place.length === 0) {
     var newTopCountriesList = getTopCountriesList();
