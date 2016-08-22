@@ -1,8 +1,8 @@
 'use strict';
 //Module for getting 'clues' from wikipedia, EG flags or language
 
-// test stuff
-var country = {country: 'Germany'};
+// // test stuff
+// var country = {country: 'Germany'};
 
 
 
@@ -27,7 +27,7 @@ function getCountryClues(flickrCountry) {
 * sends the request out for things
 */
 var urlOutput = getCountryClues(country).then(function(fromJSON) {
-  console.log(fromJSON);
+  // console.log(fromJSON);
   return makeThumbnailGreatAgain(stripUrlFromJson(fromJSON));
 });
 
@@ -38,11 +38,11 @@ var urlOutput = getCountryClues(country).then(function(fromJSON) {
 */
 function stripUrlFromJson(jsonObj) {
   var siteIDArray = Object.keys(jsonObj.query.pages);
-  console.log(siteIDArray);
+  // console.log(siteIDArray);
   var siteID = siteIDArray[0];
-  console.log(siteID);
+  // console.log(siteID);
   var output = jsonObj.query.pages[siteID].thumbnail.source;
-  console.log(output);
+  // console.log(output);
   return output;
 }
 
@@ -52,6 +52,6 @@ function stripUrlFromJson(jsonObj) {
 function makeThumbnailGreatAgain(url) {
   var re = /\/\d*[p][x]/i;
   var output = url.replace(re, '/500px');
-  console.log(output);
+  // console.log(output);
   return output;
 }
