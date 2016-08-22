@@ -1,5 +1,13 @@
 'use strict';
 
+/* global getPhoto, getTopCountriesList, milesBetweenPoints, linkPoints, getCountryClues */
+
+var TOTAL_ROUNDS = 5;
+var roundNumber = 1;
+var topCountriesList;
+var photo;
+var clues; // eslint-disable-line no-unused-vars
+
 /**
  *
  *
@@ -28,9 +36,9 @@ function fitDimsToBounds(imgWidth, imgHeight, boxWidth, boxHeight) {
 
 
 /**
+ * Preload photo, fade out old, replace with new
  *
- *
- * @param {any} latLng
+ * @param {String} url
  */
 function placePhoto(url) {
   $('<img>').attr('src', url).on('load', function(loadEvt) {
@@ -56,22 +64,72 @@ function placePhoto(url) {
 }
 
 /**
- * Placeholder function
+ *
  */
-function locationClickHandler(latLng) {
-  console.log('LatLng: ' + latLng.lat + ', ' + latLng.lng);
+function displayNextPhoto() {
+  // TODO: disable map interaction
+  photo = getPhoto(topCountriesList);
+  getCountryClues(photo).then(function(data) {
+    clues = data;
+    console.dir(clues.query.pages);
+  });
+  placePhoto(photo.url);
+  $('.hints ul').children().remove();
+  $('.details').text('');
+  // TODO: re-enable map interaction
+}
+
+/**
+ * TODO
+ */
+function askPlayAgain() {
+  if (confirm('Play again?')) {
+    roundNumber = 1;
+    displayNextPhoto();
+  }
+
+  resetMap(); // eslint-disable-line no-undef
+}
+
+/**
+ * Primary game interaction
+ */
+function handleLocationClick(clickCoord) {
+  var actualCoord = photo.coordinate;
+  linkPoints(actualCoord, clickCoord);
+
+  var distance = milesBetweenPoints(photo.coordinate, clickCoord);
+
+  $('.details').html([
+    'Actual: ' + photo.coordinate.latitude,
+    'Guess: ' + clickCoord.latitude,
+    'Distance: ' + distance
+  ].join('<br>'));
+
+  ++roundNumber;
+  if (roundNumber > TOTAL_ROUNDS) {
+    window.setTimeout(askPlayAgain, 1000);
+  } else {
+    displayNextPhoto();
+  }
+}
+
+/**
+ *
+ */
+function giveHint() {
+  var $li = $('<li>').text('Flag: ');
+  $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
+  $('.hints ul').append($li);
 }
 
 /**
  * main
  */
 $().ready(function() {
-  var topCountriesList = getTopCountriesList();
-  var photo = getPhoto(topCountriesList);
-  initializeMap(locationClickHandler); // eslint-disable-line no-undef
-  placePhoto(photo.url);
+  roundNumber = 1;
+  topCountriesList = getTopCountriesList();
+  displayNextPhoto();
+  initializeMap(handleLocationClick); // eslint-disable-line no-undef
+  $('button').on('click', giveHint);
 });
-
-
-//// Test features ////
-// function dum

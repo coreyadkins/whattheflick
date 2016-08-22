@@ -10,15 +10,21 @@
 * Haversine formula for distance between coordinates, removed the non-miles calculations
 */
 function distance(lat1, lon1, lat2, lon2) {
-	var radlat1 = Math.PI * lat1/180
-	var radlat2 = Math.PI * lat2/180
-	var theta = lon1-lon2
-	var radtheta = Math.PI * theta/180
-	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-	dist = Math.acos(dist)
-	dist = dist * 180/Math.PI
-	dist = dist * 60 * 1.1515
-	return dist
+  var radlat1 = Math.PI * lat1 / 180;
+  var radlat2 = Math.PI * lat2 / 180;
+  var theta = lon1 - lon2;
+  var radtheta = Math.PI * theta / 180;
+  var dist = 0 +
+    Math.sin(radlat1) *
+    Math.sin(radlat2) +
+    Math.cos(radlat1) *
+    Math.cos(radlat2) *
+    Math.cos(radtheta)
+  ;
+  dist = Math.acos(dist);
+  dist = dist * 180 / Math.PI;
+  dist = dist * 60 * 1.1515;
+  return dist;
 }
 
 /**
@@ -38,21 +44,18 @@ function ScoreBoard() {
   // removes points if they guess a hint correctly
   this.removePoints = function(amount) {
     this.score -= amount;
-  }
+  };
 }
-
-
 
 /**
 * take in a list of coordinates and return the distance, the distance function
 * requires
 */
 function milesBetweenPoints(flickrCoord, clickCoord) {
-  var lat1 = flickrCoord['lat'];
-  var lon1 = flickrCoord['lng'];
-  var lat2 = clickCoord['lat'];
-  var lon2 = clickCoord['lng'];
-  return distance(lat1, lon1, lat2, lon2)
+  return distance(
+    flickrCoord.latitude, flickrCoord.longitude,
+    clickCoord.latitude, clickCoord.longitude
+  );
 }
 
 
@@ -60,7 +63,7 @@ function milesBetweenPoints(flickrCoord, clickCoord) {
 //test stuff
 var testScoreboard = new ScoreBoard();
 //two random places in Portland
-var testFlickr = {lat: 45.520899, lng: -122.683658};
-var testClick = {lat: 45.522989, lng: -122.687199};
+var testFlickr = {latitude: 45.520899, longitude: -122.683658};
+var testClick = {latitude: 45.522989, longitude: -122.687199};
 testScoreboard.addPoints(milesBetweenPoints(testFlickr, testClick));
 console.log(testScoreboard);
