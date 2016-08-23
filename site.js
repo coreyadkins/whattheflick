@@ -4,7 +4,7 @@ var TOTAL_ROUNDS = 5;
 var roundNumber = 1;
 var topCountriesList;
 var photo;
-var clues; // eslint-disable-line no-unused-vars
+var clues = []; // eslint-disable-line no-unused-vars
 var clueNames; // eslint-disable-line no-unused-vars
 var scoreboard; // eslint-disable-line no-unused-vars
 
@@ -142,11 +142,11 @@ function unzoomImage() {
 
 function handleLoadedClues(jsonData) {
   var jsonObj = jsonData[0];
-  clues = [
-    jsonObj.population, jsonObj.region, jsonObj.currencies.join(', '),
-    jsonObj.borders.join(','), jsonObj.nativeName
-  ];
-  clueNames = ['population', 'region', 'currencies', 'borders', 'nativeName'];
+  clues.push({name: 'population', value: jsonObj.population});
+  clues.push({name: 'region', value: jsonObj.region});
+  clues.push({name: 'currencies', value: jsonObj.join(', ')});
+  clues.push({name: 'borders', value: jsonObj.join(', ')});
+  clues.push({name: 'nativeName', value: jsonObj.nativeName});
 }
 
 /**
@@ -156,11 +156,6 @@ function displayNextPhoto() {
   // TODO: disable map interaction
   photo = getPhoto(topCountriesList);
   getCountryInfo(photo.country).then(handleLoadedClues);
-
-  // getCountryClues(photo).then(function(data) {
-  //   clues = data;
-  //   console.dir(clues.query.pages);
-  // });
   placePhoto(photo.url);
   $('.hints ul').children().remove();
   $('.details').text('');
@@ -213,8 +208,7 @@ function giveHint() {
   var hintsUsed = $('.hints ul').children().length;
   if (hintsUsed <= 4) {
     var $li = $('<li>');
-    $li.text(clueNames[hintsUsed] + ': ' + clues[hintsUsed]);
-    // $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
+    $li.text(clues[hintsUsed].name + ': ' + clues[hintsUsed].value);
     $ul.append($li);
     scoreboard.addpoints(500);
   } else {
