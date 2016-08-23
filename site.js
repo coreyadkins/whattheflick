@@ -216,6 +216,7 @@ function giveHint() {
     $li.text(clueNames[hintsUsed] + ': ' + clues[hintsUsed]);
     // $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
     $ul.append($li);
+    scoreboard.addpoints(500);
   } else {
     $ul.append('no more hints');
   }
