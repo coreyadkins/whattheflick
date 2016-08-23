@@ -112,7 +112,7 @@ function getPhotoLocation(photoId) {
 function trollFilter(photosByPlace) {
   var photos = photosByPlace.photos.photo;
   return _.filter(photos, function(photo) {
-    return photo !== '100597270@N04';
+    return photo.owner !== '100597270@N04';
   });
 }
 
