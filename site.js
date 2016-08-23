@@ -4,8 +4,7 @@ var TOTAL_ROUNDS = 5;
 var roundNumber = 1;
 var topCountriesList;
 var photo;
-var clues = []; // eslint-disable-line no-unused-vars
-var clueNames; // eslint-disable-line no-unused-vars
+var clues; // eslint-disable-line no-unused-vars
 var scoreboard; // eslint-disable-line no-unused-vars
 
 var PREVIEW_IN = {
@@ -142,6 +141,7 @@ function unzoomImage() {
 
 function handleLoadedClues(jsonData) {
   var jsonObj = jsonData[0];
+  clues = [];
   clues.push({name: 'population', value: jsonObj.population});
   clues.push({name: 'region', value: jsonObj.region});
   clues.push({name: 'currencies', value: jsonObj.join(', ')});
