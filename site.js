@@ -139,16 +139,23 @@ function unzoomImage() {
   });
 }
 
+function handleLoadedClues(jsonData) {
+  var jsonObj = jsonData[0];
+  clues = [];
+  clues.push({name: 'population', value: jsonObj.population});
+  clues.push({name: 'region', value: jsonObj.region});
+  clues.push({name: 'currencies', value: jsonObj.join(', ')});
+  clues.push({name: 'borders', value: jsonObj.join(', ')});
+  clues.push({name: 'nativeName', value: jsonObj.nativeName});
+}
+
 /**
  * Placeholder function
  */
 function displayNextPhoto() {
   // TODO: disable map interaction
   photo = getPhoto(topCountriesList);
-  getCountryClues(photo).then(function(data) {
-    clues = data;
-    console.dir(clues.query.pages);
-  });
+  getCountryInfo(photo.country).then(handleLoadedClues);
   placePhoto(photo.url);
   $('.hints ul').children().remove();
   $('.details').text('');
@@ -197,9 +204,17 @@ function handleLocationClick(clickCoord) {
  *
  */
 function giveHint() {
-  var $li = $('<li>').text('Flag: ');
-  $li.append($('<img>').attr('src', stripUrlFromJson(clues)));
-  $('.hints ul').append($li);
+  var $ul = $('.hints ul');
+  var hintsUsed = $('.hints ul').children().length;
+  if (hintsUsed <= 4) {
+    var $li = $('<li>');
+    $li.text(clues[hintsUsed].name + ': ' + clues[hintsUsed].value);
+    $ul.append($li);
+    scoreboard.addpoints(500);
+  } else {
+    $ul.append('no more hints');
+  }
+
 }
 
 /**

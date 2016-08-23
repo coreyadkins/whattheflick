@@ -26,10 +26,10 @@ function getCountryClues(flickrCountry) {
 /**
 * sends the request out for things
 */
-var urlOutput = getCountryClues(country).then(function(fromJSON) {
-  // console.log(fromJSON);
-  return makeThumbnailGreatAgain(stripUrlFromJson(fromJSON));
-});
+// var urlOutput = getCountryClues(country).then(function(fromJSON) {
+//   // console.log(fromJSON);
+//   return makeThumbnailGreatAgain(stripUrlFromJson(fromJSON));
+// });
 
 
 /**
